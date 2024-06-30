@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class NewBehaviourScript : MonoBehaviour
 {
     public float moveSpeed;
     GameController m_gc;
@@ -16,7 +16,7 @@ public class Obstacle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        obstacleRightTo();
+        obstacleUpTo();
     }
     //xử lý tiếp khi vật thể var vào screenLimit thì reset lại 
     private void OnTriggerEnter2D(Collider2D col)
@@ -26,16 +26,13 @@ public class Obstacle : MonoBehaviour
             Debug.Log("var vao ScreenLimit");
             m_gc.ScoreIncrenment();
 
-
             Destroy(gameObject);
         }
 
     }
-
-    private void obstacleRightTo()
+    private void obstacleUpTo()
     {
-        // xứ lý dần về phái tai trái [Vector3.left => viết tắt của (-1,0,0) * 5 = (-5,1,1)] //
-        transform.position = transform.position + Vector3.left * moveSpeed * Time.deltaTime;
-
+        transform.position = transform.position + Vector3.down * moveSpeed * Time.deltaTime;
     }
+
 }

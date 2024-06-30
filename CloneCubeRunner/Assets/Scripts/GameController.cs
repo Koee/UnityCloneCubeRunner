@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;  //dùng để quản lý các thư mục Scr
 public class GameController : MonoBehaviour
 {
     public GameObject obstacle;
-    public GameObject RockObstacle;
+    public GameObject obstacleUp;
     public float spawTime;
     float m_spawTime;
     int m_score;
@@ -38,9 +38,9 @@ public class GameController : MonoBehaviour
         //thời gian lùi về 0 thì tạo mới
         if (m_spawTime <= 0)
         {
-            // khởi tạo 
+            // khởi tạo obsacle
             SpawObsacle();
-
+            SpawObsacleUp();
             //reset time
             m_spawTime = spawTime;
         }
@@ -54,22 +54,23 @@ public class GameController : MonoBehaviour
         //random tọa độ pos vật thể
         float randYpos = Random.Range(-3f, -2.15f);
         Vector2 spawnPosRightTo = new Vector2(10.76f, randYpos);
-        Vector2 spawnPosLeftTo = new Vector2(-10f, randYpos);
 
         //kiểm tra  vật thể phải được gán # null
         if (obstacle)
         {
             Instantiate(obstacle, spawnPosRightTo, Quaternion.identity);
         }//Quaternion.identity : không xoay 
-         //Instantiate : khởi tạo giá trị
-
-        // else if (RockObstacle)
-        // {
-        //     Instantiate(RockObstacle, spawnPosLeftToRight, Quaternion.identity);
-        // }
+    }
+    public void SpawObsacleUp()
+    {
+        float randXpos = Random.Range(-7.2f, 7.2f);
+        Vector2 spawnPosUpTo = new Vector2(randXpos, 4.04f);
+        if (obstacleUp)
+        {
+            Instantiate(obstacleUp, spawnPosUpTo, Quaternion.identity);
+        }
 
     }
-
     public void SetScore(int value) { m_score = value; }
     public int GetScore() { return m_score; }
     public void ScoreIncrenment()
