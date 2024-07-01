@@ -25,11 +25,18 @@ public class Player : MonoBehaviour
     public AudioClip loseSound;
 
     // Start is called before the first frame update
+
+    //xử lý move btn 
+    private bool moveLeft, moveRight;
     void Start()
     {
         m_rd = GetComponent<Rigidbody2D>(); // GetComponent để lấy tất cả thành phần ở trong 9 đối tượng  muốn truy vấn
         m_gc = FindAnyObjectByType<GameController>();
         m_animator = GetComponent<Animator>();
+
+        //xử lý btn left/right 
+        moveLeft = false;
+        moveRight = false;
     }
 
     // Update is called once per frame
@@ -59,6 +66,15 @@ public class Player : MonoBehaviour
         //animation
         m_animator.SetFloat("move", Mathf.Abs(moveLeftRight)); // kiểm tra biến khai bao trong animator Unity (Unity) && giá trị tuyệt đối moveLeftRight truyền vào
 
+        //xử lý riêng cho việc btn trên Unity
+        if (moveLeft)
+        {
+            m_rd.velocity = new Vector2(-moveSpeed, m_rd.velocity.y);
+        }
+        if (moveRight)
+        {
+            m_rd.velocity = new Vector2(moveSpeed, m_rd.velocity.y);
+        }
 
     }
     private void OnCollisionEnter2D(Collision2D col)
@@ -75,7 +91,8 @@ public class Player : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Obstacle"))
         {
-            if (aus && loseSound)
+            //ý tưởng game kết thúc = cook
+            if (aus && loseSound && !m_gc.isGameover())
             {
                 aus.PlayOneShot(loseSound);
             }
@@ -84,7 +101,7 @@ public class Player : MonoBehaviour
         }
         if (col.gameObject.CompareTag("DeathZone"))
         {
-            if (aus && loseSound)
+            if (aus && loseSound && !m_gc.isGameover())
             {
                 aus.PlayOneShot(loseSound);
             }
@@ -106,5 +123,35 @@ public class Player : MonoBehaviour
             transform.localScale = transf;
 
         }
+    }
+    //xử lý btn trên mobile
+    public void JumpMob()
+    {
+        if (!m_isGround)
+            return;
+
+        m_rd.AddForce(Vector2.up * jumpForce); // Thêm 1 lực từ bàn phím vào --- LÚC NÀY VẤN ĐỀ ở trên không vẫn nhãy
+        m_isGround = false; // trên Không được nhảy
+
+
+        //xử lý sound
+        if (aus && jumpSound)
+        {
+            aus.PlayOneShot(jumpSound);//sound có độ dày ngắn
+        }
+    }
+    public void moveLeftMob()
+    {
+        moveLeft = true;
+    }
+    public void moveRightMob()
+    {
+        moveRight = true;
+    }
+    public void StopMoveMob()
+    {
+        moveLeft = false;
+        moveRight = false;
+        m_rd.velocity = Vector2.zero;
     }
 }

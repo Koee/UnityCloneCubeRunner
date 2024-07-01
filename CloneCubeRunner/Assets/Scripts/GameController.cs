@@ -75,6 +75,9 @@ public class GameController : MonoBehaviour
     public int GetScore() { return m_score; }
     public void ScoreIncrenment()
     {
+        //xử lý khi add game không tăng điểm >>> ý tưởng nếu m_isGameover = true >> return dừng hết.
+        if (m_isGameover)
+            return;
         m_score++;
         m_ui.SetScoreText("Score : " + m_score);
     }
