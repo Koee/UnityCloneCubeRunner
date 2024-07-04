@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Jump
         bool isJumpKeyPressed = Input.GetKeyDown(KeyCode.Space);
         if (isJumpKeyPressed && m_isGround)
         {
@@ -75,7 +76,12 @@ public class Player : MonoBehaviour
         {
             m_rd.velocity = new Vector2(moveSpeed, m_rd.velocity.y);
         }
-
+        //attack
+        bool isAttackPressed = Input.GetKeyDown(KeyCode.F);
+        if (isAttackPressed)
+        {
+            m_animator.SetTrigger("attack");
+        }
     }
     private void OnCollisionEnter2D(Collision2D col)
     // OnCollisionEnter2D bất sự kiện 2 vật thể va vào nhau nhưng không xuyên qua nhau 
